@@ -4,18 +4,14 @@ class CatsController < ApplicationController
     render json: cats
   end
 
-  def show
-    cat = Cat.find(params[:id])
-    render json: cat
-  end
-
   def create
-    # Create a new cat
     cat = Cat.create(cat_params)
     if cat.valid?
       render json: cat
      else
       render json: cat.errors, status: :unprocessable_entity
+      # This can also be written as:
+      # render json: cat.errors, status: 422
      end
   end
 
