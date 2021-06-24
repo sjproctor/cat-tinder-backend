@@ -41,29 +41,53 @@ RSpec.describe "Cats", type: :request do
     expect(cat.name).to eq 'Buster'
   end
 
-  # it "edits a cat" do
-  #   # The params we are going to send with the request
-  #   cat_params = {
-  #     cat: {
-  #       name: 'Felix',
-  #       age: 4,
-  #       enjoys: 'Walks in the park.'
-  #     }
-  #   }
-  #
-  #   # Look up the cat we expect to be created in the Database
-  #   cat = Cat.first
-  #   puts cat
-  #
-  #   # Send the request to the server
-  #   patch "/cats/#{cat.id}", params: cat_params
-  #
-  #   # Assure that we get a success back
-  #   expect(response).to have_http_status(:ok)
-  #
-  #   # Assure that the created cat has the correct attributes
-  #   expect(cat.age).to eq 4
-  # end
+  it 'edits a cat' do
+    cat_params = {
+      cat: {
+        name: 'Felix',
+        age: 4,
+        enjoys: 'Walks in the park.'
+      }
+    }
+    post '/cats', params: cat_params
+
+    cat = Cat.first
+
+    new_cat_params = {
+      cat: {
+        name: 'Felix',
+        age: 2,
+        enjoys: 'Walks in the park.'
+      }
+    }
+    patch "/cats/#{cat.id}", params: new_cat_params
+
+    # redefine the variable to reference the same cat initially created
+    cat = Cat.find cat.id
+
+    # Assure that we get a success back
+    expect(response).to have_http_status(200)
+
+    # Assure that the edited cat has the correct attributes
+    expect(cat.age).to eq 2
+  end
+
+
+  it 'deletes a cat' do
+    cat_params = {
+      cat: {
+        name: 'Felix',
+        age: 4,
+        enjoys: 'Walks in the park.'
+      }
+    }
+    post '/cats', params: cat_params
+    cat = Cat.first
+    delete "/cats/#{cat.id}"
+    expect(response).to have_http_status(200)
+    cats = Cat.all
+    expect(cats).to be_empty
+  end
 
   it "doesn't create a cat without a name" do
     cat_params = {
