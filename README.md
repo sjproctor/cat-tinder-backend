@@ -1,43 +1,34 @@
-# Setup Installs:
-  $ rails new cat-tinder-backend -d postgresql -T
-  $ cd cat-tinder-backend
-  $ rails db:create
-  $ bundle add rspec-rails
-  $ rails generate rspec:install
+# Cat Tinder
+The purpose of this application is to expose students to their first decoupled full-stack application. The frontend is a React app that makes requests to a separate Rails API.
 
-  $ rails generate resource Cat name:string age:integer enjoys:text image:text
-  $ rails db:migrate
+## 🐱 Cat Tinder Project Description
+As a developer, I have been commissioned to create an application where a user can see cute cats looking for friends. As a user, I can see a list of cats. I can click on a cat and see more information about that cat. I can also add cats to the list of cats looking for friends. If my work is acceptable to my client, I may also be asked to add the ability to remove a cat from the list as well as edit cat information.
 
-   - Checked rspec is running: $ rspec spec
+## ⚡️ Quick Start
+First clone the repository. Then within the root of the project directory, run:
 
-# Seeds
-- Added seed content to db/seeds
-  $ rails db:seed
-- Use rails console to see data in database by running Cat.all
-
-
-# CORS
-- Enabled controller to accept requests from outside applications:
-```ruby
-class ApplicationController < ActionController::Base
-  skip_before_action :verify_authenticity_token
-end
+```bash
+yarn
+bundle
 ```
-- Added cors gem: gem 'rack-cors', :require => 'rack/cors'
-- Added cors.rb to config/initializers with below code:
-```ruby
-# Avoid CORS issues when API is called from the frontend app.
-# Handle Cross-Origin Resource Sharing (CORS) in order to accept cross-origin AJAX requests.
+## 🗄️ Configure Back-End
+Next, create and seed your databases with these commands:
 
-# Read more: https://github.com/cyu/rack-cors
+```bash
+rails db:create
+rails db:migrate
+rails db:seed
+```
 
-Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  allow do
-    origins '*'  # <- change this to allow requests from any domain while in development.
+## 🏁 Start the App
 
-    resource '*',
-      headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
-  end
-end
+```bash
+rails s
+```
+
+## 🚗 Testing
+To run the existing RSpec testing suite, run:
+
+```bash
+rspec spec
 ```
